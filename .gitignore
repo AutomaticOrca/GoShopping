@@ -1,0 +1,57 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# macOS related
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS folder settings
+._*
+.Spotlight-V100
+.Trashes
+*.swp
+*.swo
+*.swn
+
+# Go build artifacts
+/bin/
+/pkg/
+/vendor/
+
+# Go workspace
+go.work
+go.work.sum
+
+# Dependency directories (remove the comment if you vendor dependencies)
+# /vendor/
+
+# Go module files
+go.sum
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+
+# Coverage reports
+*.coverprofile
+*.cov
+*.coverage
+
+# Testing files
+*.test
+*.tmp
+*.bench
+
+# Generated files
+gen/
