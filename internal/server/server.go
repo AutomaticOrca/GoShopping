@@ -34,3 +34,7 @@ func NewServer(config configs.Config, store db.Store) (*Server, error) {
 func (server *Server) Start(address string) error {
 	return server.router.Run(address)
 }
+
+func errorResponse(err error) gin.H {
+	return gin.H{"error": err.Error()}
+}
