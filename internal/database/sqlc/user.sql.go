@@ -37,3 +37,48 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	)
 	return i, err
 }
+
+const deleteUser = `-- name: DeleteUser :exec
+DELETE FROM users WHERE id = $1
+`
+
+func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, deleteUser, id)
+	return err
+}
+
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, email
+FROM users
+WHERE email = $1
+`
+
+type GetUserByEmailRow struct {
+	ID    int32  `json:"id"`
+	Email string `json:"email"`
+}
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error) {
+	row := q.db.QueryRow(ctx, getUserByEmail, email)
+	var i GetUserByEmailRow
+	err := row.Scan(&i.ID, &i.Email)
+	return i, err
+}
+
+const getUserByID = `-- name: GetUserByID :one
+SELECT id, email
+FROM users
+WHERE id = $1
+`
+
+type GetUserByIDRow struct {
+	ID    int32  `json:"id"`
+	Email string `json:"email"`
+}
+
+func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error) {
+	row := q.db.QueryRow(ctx, getUserByID, id)
+	var i GetUserByIDRow
+	err := row.Scan(&i.ID, &i.Email)
+	return i, err
+}

@@ -2,15 +2,19 @@ package configs
 
 import (
 	"github.com/spf13/viper"
+	"time"
 )
 
 type Config struct {
-	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
-	Port          string `mapstructure:"PORT"`
-	DbUsername    string `mapstructure:"DB_USERNAME"`
-	DbPassword    string `mapstructure:"DB_PASSWORD"`
-	DbPort        string `mapstructure:"DB_PORT"`
-	DbName        string `mapstructure:"DB_NAME"`
+	ServerAddress        string        `mapstructure:"SERVER_ADDRESS"`
+	Port                 string        `mapstructure:"PORT"`
+	DbUsername           string        `mapstructure:"DB_USERNAME"`
+	DbPassword           string        `mapstructure:"DB_PASSWORD"`
+	DbPort               string        `mapstructure:"DB_PORT"`
+	DbName               string        `mapstructure:"DB_NAME"`
+	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
+	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
+	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

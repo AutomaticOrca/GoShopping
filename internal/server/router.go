@@ -1,5 +1,9 @@
 package server
 
-func (s *Server) setupRoutes() {
-	s.Router.HandleFunc("/_healthz", Healthz).Methods("GET").Name("Healthz")
+import "github.com/gin-gonic/gin"
+
+func (server *Server) setupRouter() {
+	router := gin.Default()
+	router.GET("/_healthz", Healthz)
+	server.router = router
 }

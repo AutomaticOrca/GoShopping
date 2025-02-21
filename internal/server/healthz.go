@@ -1,14 +1,10 @@
 package server
 
 import (
-	log "github.com/sirupsen/logrus"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func Healthz(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	_, err := w.Write([]byte(http.StatusText(http.StatusOK)))
-	if err != nil {
-		log.Printf("Failed to write response: %v", err)
-	}
+func Healthz(c *gin.Context) {
+	c.String(http.StatusOK, http.StatusText(http.StatusOK))
 }

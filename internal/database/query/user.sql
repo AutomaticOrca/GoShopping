@@ -5,3 +5,16 @@ INSERT INTO users (
 ) VALUES (
         $1, $2
          ) RETURNING *;
+
+-- name: GetUserByID :one
+SELECT id, email
+FROM users
+WHERE id = $1;
+
+-- name: GetUserByEmail :one
+SELECT id, email
+FROM users
+WHERE email = $1;
+
+-- name: DeleteUser :exec
+DELETE FROM users WHERE id = $1;
