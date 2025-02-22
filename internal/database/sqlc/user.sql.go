@@ -10,12 +10,10 @@ import (
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (
-    email,
-    password_hash
-) VALUES (
-        $1, $2
-         ) RETURNING id, email, password_hash, full_name, avatar_url, created_at, updated_at
+INSERT INTO users (email,
+                   password_hash)
+VALUES ($1, $2)
+RETURNING id, email, password_hash, full_name, avatar_url, created_at, updated_at, role
 `
 
 type CreateUserParams struct {
@@ -34,12 +32,15 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.AvatarUrl,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.Role,
 	)
 	return i, err
 }
 
 const deleteUser = `-- name: DeleteUser :exec
-DELETE FROM users WHERE id = $1
+DELETE
+FROM users
+WHERE id = $1
 `
 
 func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
@@ -48,37 +49,38 @@ func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
 }
 
 const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT id, email
+SELECT id, email, password_hash, full_name, avatar_url, created_at, updated_at, role
 FROM users
 WHERE email = $1
 `
 
-type GetUserByEmailRow struct {
-	ID    int32  `json:"id"`
-	Email string `json:"email"`
-}
-
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error) {
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
 	row := q.db.QueryRow(ctx, getUserByEmail, email)
-	var i GetUserByEmailRow
-	err := row.Scan(&i.ID, &i.Email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.PasswordHash,
+		&i.FullName,
+		&i.AvatarUrl,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Role,
+	)
 	return i, err
 }
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT id, email
+SELECT (
+        id, email, full_name, avatar_url, role
+           )
 FROM users
 WHERE id = $1
 `
 
-type GetUserByIDRow struct {
-	ID    int32  `json:"id"`
-	Email string `json:"email"`
-}
-
-func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error) {
+func (q *Queries) GetUserByID(ctx context.Context, id int32) (interface{}, error) {
 	row := q.db.QueryRow(ctx, getUserByID, id)
-	var i GetUserByIDRow
-	err := row.Scan(&i.ID, &i.Email)
-	return i, err
+	var column_1 interface{}
+	err := row.Scan(&column_1)
+	return column_1, err
 }

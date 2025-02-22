@@ -18,8 +18,8 @@ type Querier interface {
 	DeleteUser(ctx context.Context, id int32) error
 	GetRoleByName(ctx context.Context, name string) (Role, error)
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
-	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
-	GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error)
+	GetUserByEmail(ctx context.Context, email string) (User, error)
+	GetUserByID(ctx context.Context, id int32) (interface{}, error)
 	GetUserRoles(ctx context.Context, userID int32) ([]string, error)
 	ListRoles(ctx context.Context) ([]Role, error)
 	RemoveUserRole(ctx context.Context, arg RemoveUserRoleParams) error
