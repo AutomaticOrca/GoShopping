@@ -71,3 +71,29 @@ func TimestampToString(ts pgtype.Timestamp) string {
 	}
 	return ""
 }
+
+// pgtype.Int4 -> int
+func Int4ToInt(n pgtype.Int4) int {
+	if n.Valid {
+		return int(n.Int32)
+	}
+	return 0 // Default to 0 if not valid
+}
+
+// int -> pgtype.Int4
+func IntToInt4(i int) pgtype.Int4 {
+	return pgtype.Int4{Int32: int32(i), Valid: true}
+}
+
+// pgtype.Int4 -> int32
+func Int4ToInt32(n pgtype.Int4) int32 {
+	if n.Valid {
+		return n.Int32
+	}
+	return 0
+}
+
+// int32 -> pgtype.Int4
+func Int32ToInt4(i int32) pgtype.Int4 {
+	return pgtype.Int4{Int32: i, Valid: true}
+}

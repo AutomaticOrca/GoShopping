@@ -12,7 +12,10 @@ import (
 )
 
 type Querier interface {
+	AddToCart(ctx context.Context, arg AddToCartParams) error
 	AssignRoleToUser(ctx context.Context, arg AssignRoleToUserParams) error
+	ClearCart(ctx context.Context, cartID pgtype.Int4) error
+	CreateCart(ctx context.Context, userID pgtype.Int4) (Cart, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
 	CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error)
 	CreateRole(ctx context.Context, arg CreateRoleParams) (Role, error)
@@ -21,6 +24,8 @@ type Querier interface {
 	DeleteCategory(ctx context.Context, id int32) error
 	DeleteProduct(ctx context.Context, id int32) error
 	DeleteUser(ctx context.Context, id int32) error
+	GetCart(ctx context.Context, cartID pgtype.Int4) ([]GetCartRow, error)
+	GetCartByUser(ctx context.Context, userID pgtype.Int4) (Cart, error)
 	GetCategoryByID(ctx context.Context, id int32) (Category, error)
 	GetProductByID(ctx context.Context, id int32) (Product, error)
 	GetRoleByName(ctx context.Context, name string) (Role, error)

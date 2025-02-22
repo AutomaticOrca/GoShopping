@@ -33,5 +33,13 @@ func (server *Server) setupRouter() {
 		productRoutes.GET("/", server.listProducts)
 	}
 
+	cartRoutes := apiRoutes.Group("/carts").Use(authMiddleware(server.tokenMaker))
+	{
+		cartRoutes.POST("/", server.CreateCart)
+		cartRoutes.POST("/items", server.AddToCart)
+		cartRoutes.GET("/", server.GetCart)
+		cartRoutes.DELETE("/", server.ClearCart)
+	}
+
 	server.router = router
 }
