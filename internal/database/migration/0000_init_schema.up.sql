@@ -41,7 +41,7 @@ CREATE TABLE sessions
 CREATE TABLE categories (
                             id SERIAL PRIMARY KEY,
                             name VARCHAR(100) UNIQUE NOT NULL,
-                            parent_id INT REFERENCES categories(id) ON DELETE SET NULL -- 支持二级分类
+                            parent_id INT REFERENCES categories(id) ON DELETE SET NULL 
 );
 
 -- products
