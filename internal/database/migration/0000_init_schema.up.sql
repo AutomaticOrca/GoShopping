@@ -23,13 +23,18 @@ CREATE TABLE user_roles (
                             PRIMARY KEY (user_id, role_id)
 );
 
--- auth tokens
-CREATE TABLE auth_tokens (
-                             id SERIAL PRIMARY KEY,
-                             user_id INT REFERENCES users(id) ON DELETE CASCADE,
-                             token TEXT NOT NULL UNIQUE,
-                             expires_at TIMESTAMP NOT NULL,
-                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- sessions
+CREATE TABLE sessions
+(
+    id            UUID PRIMARY KEY,
+    user_id       INT         NOT NULL,
+    refresh_token VARCHAR     NOT NULL,
+    user_agent    VARCHAR     NOT NULL,
+    client_ip     VARCHAR     NOT NULL,
+    is_blocked    BOOLEAN     NOT NULL DEFAULT false,
+    expires_at    TIMESTAMPTZ NOT NULL,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 -- categories
@@ -107,6 +112,7 @@ CREATE TABLE payments (
 
 -- index
 CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_sessions_user_id ON sessions (user_id);
 CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_payments_order_id ON payments(order_id);
 CREATE INDEX idx_cart_items_cart_id ON cart_items(cart_id);

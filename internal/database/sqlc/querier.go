@@ -7,24 +7,22 @@ package db
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/google/uuid"
 )
 
 type Querier interface {
 	AssignRoleToUser(ctx context.Context, arg AssignRoleToUserParams) error
-	CreateAuthToken(ctx context.Context, arg CreateAuthTokenParams) (AuthToken, error)
 	CreateRole(ctx context.Context, arg CreateRoleParams) (Role, error)
+	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	DeleteAllAuthTokens(ctx context.Context, userID pgtype.Int4) error
-	DeleteAuthToken(ctx context.Context, arg DeleteAuthTokenParams) error
 	DeleteUser(ctx context.Context, id int32) error
 	GetRoleByName(ctx context.Context, name string) (Role, error)
+	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error)
 	GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error)
 	GetUserRoles(ctx context.Context, userID int32) ([]string, error)
 	ListRoles(ctx context.Context) ([]Role, error)
 	RemoveUserRole(ctx context.Context, arg RemoveUserRoleParams) error
-	ValidateAuthToken(ctx context.Context, arg ValidateAuthTokenParams) (AuthToken, error)
 }
 
 var _ Querier = (*Queries)(nil)
