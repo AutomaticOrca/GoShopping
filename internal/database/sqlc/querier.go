@@ -14,12 +14,15 @@ import (
 type Querier interface {
 	AssignRoleToUser(ctx context.Context, arg AssignRoleToUserParams) error
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
+	CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error)
 	CreateRole(ctx context.Context, arg CreateRoleParams) (Role, error)
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteCategory(ctx context.Context, id int32) error
+	DeleteProduct(ctx context.Context, id int32) error
 	DeleteUser(ctx context.Context, id int32) error
 	GetCategoryByID(ctx context.Context, id int32) (Category, error)
+	GetProductByID(ctx context.Context, id int32) (Product, error)
 	GetRoleByName(ctx context.Context, name string) (Role, error)
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetSubcategories(ctx context.Context, parentID pgtype.Int4) ([]Category, error)
@@ -27,9 +30,11 @@ type Querier interface {
 	GetUserByID(ctx context.Context, id int32) (interface{}, error)
 	GetUserRoles(ctx context.Context, userID int32) ([]string, error)
 	ListCategories(ctx context.Context) ([]Category, error)
+	ListProducts(ctx context.Context, arg ListProductsParams) ([]Product, error)
 	ListRoles(ctx context.Context) ([]Role, error)
 	RemoveUserRole(ctx context.Context, arg RemoveUserRoleParams) error
 	UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error)
+	UpdateProduct(ctx context.Context, arg UpdateProductParams) (Product, error)
 }
 
 var _ Querier = (*Queries)(nil)

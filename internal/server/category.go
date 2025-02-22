@@ -92,7 +92,6 @@ type getSubcategoriesRequest struct {
 	ParentID int `uri:"parent_id" binding:"required,min=1"`
 }
 
-// 获取子分类
 func (server *Server) getSubcategories(ctx *gin.Context) {
 	var req getSubcategoriesRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
@@ -120,7 +119,6 @@ type updateCategoryRequest struct {
 	ParentID *int   `json:"parent_id"`
 }
 
-// 更新分类
 func (server *Server) updateCategory(ctx *gin.Context) {
 	var req updateCategoryRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
