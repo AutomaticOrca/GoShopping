@@ -14,9 +14,14 @@ import (
 type Querier interface {
 	AddToCart(ctx context.Context, arg AddToCartParams) error
 	AssignRoleToUser(ctx context.Context, arg AssignRoleToUserParams) error
+	CancelOrder(ctx context.Context, id int32) error
+	CancelPayment(ctx context.Context, id int32) error
 	ClearCart(ctx context.Context, cartID pgtype.Int4) error
+	ConfirmPayment(ctx context.Context, id int32) error
 	CreateCart(ctx context.Context, userID pgtype.Int4) (Cart, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
+	CreateOrder(ctx context.Context, arg CreateOrderParams) (CreateOrderRow, error)
+	CreatePayment(ctx context.Context, arg CreatePaymentParams) (CreatePaymentRow, error)
 	CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error)
 	CreateRole(ctx context.Context, arg CreateRoleParams) (Role, error)
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
@@ -38,7 +43,10 @@ type Querier interface {
 	ListProducts(ctx context.Context, arg ListProductsParams) ([]Product, error)
 	ListRoles(ctx context.Context) ([]Role, error)
 	RemoveUserRole(ctx context.Context, arg RemoveUserRoleParams) error
+	SettleOrder(ctx context.Context, id int32) error
+	TimeoutPayment(ctx context.Context, id int32) error
 	UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error)
+	UpdateOrder(ctx context.Context, arg UpdateOrderParams) error
 	UpdateProduct(ctx context.Context, arg UpdateProductParams) (Product, error)
 }
 

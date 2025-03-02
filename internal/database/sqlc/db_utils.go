@@ -2,6 +2,7 @@ package db
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
+	"strconv"
 	"time"
 )
 
@@ -96,4 +97,12 @@ func Int4ToInt32(n pgtype.Int4) int32 {
 // int32 -> pgtype.Int4
 func Int32ToInt4(i int32) pgtype.Int4 {
 	return pgtype.Int4{Int32: i, Valid: true}
+}
+
+func StringToInt32(s string) (int32, error) {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return 0, err
+	}
+	return int32(i), nil
 }
