@@ -45,6 +45,33 @@ func (q *Queries) CreateOrder(ctx context.Context, arg CreateOrderParams) (Creat
 	return i, err
 }
 
+const getOrderByID = `-- name: GetOrderByID :one
+SELECT id, user_id, total_price, status, created_at
+FROM orders
+WHERE id = $1
+`
+
+type GetOrderByIDRow struct {
+	ID         int32            `json:"id"`
+	UserID     pgtype.Int4      `json:"user_id"`
+	TotalPrice pgtype.Numeric   `json:"total_price"`
+	Status     string           `json:"status"`
+	CreatedAt  pgtype.Timestamp `json:"created_at"`
+}
+
+func (q *Queries) GetOrderByID(ctx context.Context, id int32) (GetOrderByIDRow, error) {
+	row := q.db.QueryRow(ctx, getOrderByID, id)
+	var i GetOrderByIDRow
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.TotalPrice,
+		&i.Status,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const settleOrder = `-- name: SettleOrder :exec
 UPDATE orders
 SET status = 'paid', updated_at = CURRENT_TIMESTAMP

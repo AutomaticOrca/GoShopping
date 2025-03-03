@@ -9,6 +9,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const (
+	QueueCritical = "critical"
+	QueueDefault  = "default"
+)
+
 type RedisTaskProcessor struct {
 	server *asynq.Server
 	store  db.Store
@@ -54,11 +59,7 @@ func (p *RedisTaskProcessor) ProcessTaskOrderCancel(ctx context.Context, task *a
 		return fmt.Errorf("invalid payload: %w", err)
 	}
 
-	orderID, err := db.StringToInt32(payload.OrderID)
-	if err != nil {
-		return fmt.Errorf("invalid OrderID: %s", payload.OrderID)
-	}
-	err = p.store.CancelOrder(ctx, orderID)
+	err := p.store.CancelOrder(ctx, payload.OrderID)
 	if err != nil {
 		logrus.Errorf("Failed to cancel order: %v", err)
 		return fmt.Errorf("failed to cancel order: %w", err)

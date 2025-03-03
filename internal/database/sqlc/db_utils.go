@@ -2,6 +2,8 @@ package db
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
+	"math"
+	"math/big"
 	"strconv"
 	"time"
 )
@@ -105,4 +107,19 @@ func StringToInt32(s string) (int32, error) {
 		return 0, err
 	}
 	return int32(i), nil
+}
+
+// **float64 -> pgtype.Numeric**
+func Float64ToNumeric(f float64) pgtype.Numeric {
+	if math.IsNaN(f) || math.IsInf(f, 0) {
+		return pgtype.Numeric{Valid: false}
+	}
+
+	intValue := int64(math.Round(f * 100))
+	bigIntValue := big.NewInt(intValue)
+	return pgtype.Numeric{
+		Int:   bigIntValue,
+		Exp:   -2,
+		Valid: true,
+	}
 }

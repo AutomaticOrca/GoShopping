@@ -43,6 +43,7 @@ type Order struct {
 	TotalPrice pgtype.Numeric   `json:"total_price"`
 	Status     string           `json:"status"`
 	CreatedAt  pgtype.Timestamp `json:"created_at"`
+	UpdatedAt  pgtype.Timestamp `json:"updated_at"`
 }
 
 type OrderItem struct {

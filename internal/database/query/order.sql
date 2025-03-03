@@ -17,3 +17,8 @@ WHERE id = $1 AND status = 'pending';
 UPDATE orders
 SET status = 'paid', updated_at = CURRENT_TIMESTAMP
 WHERE id = $1 AND status = 'pending';
+
+-- name: GetOrderByID :one
+SELECT id, user_id, total_price, status, created_at
+FROM orders
+WHERE id = $1;

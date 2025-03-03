@@ -12,6 +12,7 @@ type Config struct {
 	DbPassword           string        `mapstructure:"DB_PASSWORD"`
 	DbPort               string        `mapstructure:"DB_PORT"`
 	DbName               string        `mapstructure:"DB_NAME"`
+	RedisAddress         string        `mapstructure:"REDIS_ADDRESS"`
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`

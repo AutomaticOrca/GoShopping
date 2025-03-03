@@ -41,5 +41,10 @@ func (server *Server) setupRouter() {
 		cartRoutes.DELETE("/", server.ClearCart)
 	}
 
+	orderRoutes := apiRoutes.Group("/orders").Use(authMiddleware(server.tokenMaker))
+	{
+		orderRoutes.POST("/", server.createOrder)
+		orderRoutes.GET("/:id", server.getOrder)
+	}
 	server.router = router
 }

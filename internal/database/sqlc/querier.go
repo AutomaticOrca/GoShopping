@@ -21,6 +21,7 @@ type Querier interface {
 	CreateCart(ctx context.Context, userID pgtype.Int4) (Cart, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
 	CreateOrder(ctx context.Context, arg CreateOrderParams) (CreateOrderRow, error)
+	CreateOrderItem(ctx context.Context, arg CreateOrderItemParams) error
 	CreatePayment(ctx context.Context, arg CreatePaymentParams) (CreatePaymentRow, error)
 	CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error)
 	CreateRole(ctx context.Context, arg CreateRoleParams) (Role, error)
@@ -32,6 +33,8 @@ type Querier interface {
 	GetCart(ctx context.Context, cartID pgtype.Int4) ([]GetCartRow, error)
 	GetCartByUser(ctx context.Context, userID pgtype.Int4) (Cart, error)
 	GetCategoryByID(ctx context.Context, id int32) (Category, error)
+	GetOrderByID(ctx context.Context, id int32) (GetOrderByIDRow, error)
+	GetOrderItemsByOrderID(ctx context.Context, orderID pgtype.Int4) ([]GetOrderItemsByOrderIDRow, error)
 	GetProductByID(ctx context.Context, id int32) (Product, error)
 	GetRoleByName(ctx context.Context, name string) (Role, error)
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)

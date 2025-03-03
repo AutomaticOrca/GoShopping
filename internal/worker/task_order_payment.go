@@ -12,10 +12,13 @@ import (
 const (
 	TaskOrderCancel    = "task:order_cancel"
 	TaskPaymentTimeout = "task:payment_timeout"
+
+	OrderCancelDelay    = 30 * time.Minute
+	PaymentTimeoutDelay = 15 * time.Minute
 )
 
 type PayloadOrderCancel struct {
-	OrderID string `json:"order_id"`
+	OrderID int32 `json:"order_id"`
 }
 
 type PayloadPaymentTimeout struct {
